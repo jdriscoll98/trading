@@ -33,7 +33,8 @@ def fetch_data(start, end):
         # Create data folder if it doesn't exist
         if not os.path.exists(DATA_DIR):
             os.makedirs(DATA_DIR)
-        with open("data/" + symbol + ".csv", "w") as f:
+            os.makedirs(DATA_DIR + "/daily")
+        with open(DATA_DIR + "/" + "daily" + "/" + symbol + ".csv", "w") as f:
             f.write(r.text)
 
         # Rate limiting
@@ -52,7 +53,7 @@ def backtest(win_percent, loss_percent):
     for stock in tqdm(stocks[1:]):
         symbol = stock[0]
         data[symbol] = {}
-        with open("data/" + symbol + ".csv", "r") as f:
+        with open("data/daily/" + symbol + ".csv", "r") as f:
             lines = f.readlines()
         stock_data = [line.strip().split(",") for line in lines]
         for line in stock_data[1:]:
@@ -245,7 +246,7 @@ while True:
 
     elif user_input == "2":
         # check if data directory has at least one file
-        if not os.listdir(DATA_DIR):
+        if not os.listdir(DATA_DIR + "/" + "daily"):
             print("No data found! Please fetch data first")
         # Get win percent and loss percent
         win_percent = input("Please enter the win percent: (5) ")
@@ -275,3 +276,15 @@ while True:
     elif user_input == "3":
         print("Goodbye!")
         break
+
+# Current analysis:
+
+# if there are stocks up by 1% in premarket, there's a 33% chance that one of them will go up 5% on the day, without going down by 2%
+
+# TODO:
+"""
+1. Of the pre-market stocks, which ones go up by 1% in the first hour?
+    Needs:
+        - hourly data
+        - algo to find horses that go up 1% in the first hour
+"""
