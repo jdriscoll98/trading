@@ -30,6 +30,9 @@ def fetch_data(start, end):
             "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36"
         }
         r = requests.get(formattedURL, headers=headers)
+        # Create data folder if it doesn't exist
+        if not os.path.exists(DATA_DIR):
+            os.makedirs(DATA_DIR)
         with open("data/" + symbol + ".csv", "w") as f:
             f.write(r.text)
 
@@ -248,9 +251,13 @@ while True:
         win_percent = input("Please enter the win percent: (5) ")
         if not win_percent:
             win_percent = 5
+        else:
+            win_percent = int(win_percent)
         loss_percent = input("Please enter the loss percent: (2) ")
         if not loss_percent:
             loss_percent = 2
+        else:
+            loss_percent = int(loss_percent)
 
         # Ask for verbosity level
         verbose = input("Display daily results? (y/n): (n) ")

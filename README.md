@@ -5,7 +5,7 @@ v0.1.0 Trend Following Strategy ( nickname 'HorseRacing' )
 ```
 virtualenv venv
 source venv/bin/activate
-pip install -4 requirements.txt
+pip install -r requirements.txt
 python HorseRacing.py
 ```
 
